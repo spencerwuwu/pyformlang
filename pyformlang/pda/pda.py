@@ -598,6 +598,21 @@ class PDA:
                 label=(json.dumps(in_symbol.value) + " -> " +
                        json.dumps(stack_from.value) + " / " +
                        json.dumps([x.value for x in stack_to])))
+
+            # new
+            new_label = json.dumps(in_symbol.value) + " -> " +\
+                        json.dumps(stack_from.value) + " / " +\
+                        json.dumps([x.value for x in stack_to])
+            if graph.has_edge(s_from.value, s_to.value):
+                data = graph.get_edge_data(s_from.value, s_to.value)
+                for id, value in data.items():
+                    print(id, value)
+                print()
+                #cur_l = graph.get_edge_data(s_from.value, s_to.value)["label"]
+                #label = cur_l + "\n" + new_label
+            #else:
+            #    label = new_label
+            #graph.add_edge(s_from.value, s_to.value, label=label)
         return graph
 
     @classmethod
