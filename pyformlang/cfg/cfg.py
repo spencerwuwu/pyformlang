@@ -750,6 +750,15 @@ class CFG:
         cyk_table = CYKTable(self, word)
         return cyk_table.get_parse_tree()
 
+    def get_cyk_table(self, word):
+        """
+        """
+        word = [to_terminal(x) for x in word if x != Epsilon()]
+        if not word and not self.generate_epsilon():
+            raise DerivationDoesNotExist
+        cyk_table = CYKTable(self, word)
+        return cyk_table.get_cyk_table()
+
     def to_pda(self) -> "pda.PDA":
         """ Converts the CFG to a PDA that generates on empty stack an \
         equivalent language

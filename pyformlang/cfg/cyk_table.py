@@ -60,9 +60,14 @@ class CYKTable:
                                                       var_c.value), []):
                     self._cyk_table[(start_window, end_window)].add(
                         CYKNode(var_a, var_b, var_c))
+                    #seq = [v.value for v in self._word[start_window: end_window]]
+                    #grammar = f"{var_a} -> {var_b.value} {var_c.value}"
+                    #print(f"{grammar}; {seq}")
+                #print("---")
 
     def _initialize_cyk_table(self):
         for i, terminal in enumerate(self._word):
+            # Getting all rules associated with only the terminals (terminal,)
             self._cyk_table[(i, i + 1)] = \
                 {CYKNode(x, CYKNode(terminal))
                  for x in self._productions_d[(terminal,)]}
@@ -72,6 +77,17 @@ class CYKTable:
                 # It makes iterations longer
                 self._cyk_table[
                     (start_window, start_window + window_size)] = set()
+
+    def get_cyk_table(self):
+        """
+        Get the CYK table
+
+        Returns
+        -------
+        cyk_table : dict
+            The CYK table
+        """
+        return self._cyk_table
 
     def generate_word(self):
         """
@@ -129,6 +145,9 @@ class CYKNode(ParseTree):
 
     def __hash__(self):
         return hash(self.value)
+
+    def __repr__(self):
+        return f"CYKNode({self.value} -> {self.left_son} - {self.right_son})"
 
 
 class DerivationDoesNotExist(Exception):
